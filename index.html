@@ -1,429 +1,620 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Farm Journey - 32 Years of Self-Reliance</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our Farm Journey - 32 Years of Self-Reliance</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-        body {
-            font-family: Georgia, serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-        }
+    /* Header */
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+      color: white;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    /* Introduction */
+    .introduction {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .introduction h2 {
+      color: #2c5f2d;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    .introduction p {
+      font-size: 1.1em;
+      line-height: 1.8;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto 15px;
+    }
 
-        /* Header Styles */
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
-            color: white;
-            margin-bottom: 40px;
-        }
+    /* Image Grid */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+    .image-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .image-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .image-card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+    }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+    /* Modal / Carousel */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      padding: 20px;
+    }
+    .modal-content {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .close {
+      position: absolute;
+      top: -40px; right: 0;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .close:hover { color: #bbb; }
+    .carousel-container {
+      position: relative;
+      max-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-image {
+      max-width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+    }
+    .carousel-description {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      font-size: 1.1em;
+      background: rgba(0,0,0,0.5);
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      user-select: none;
+    }
+    .prev:hover, .next:hover { background: rgba(0,0,0,0.8); }
+    .prev { left: 20px; }
+    .next { right: 20px; }
 
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
+    /* Timeline Section */
+    .timeline-section {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+      padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+    .timeline-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #2c5f2d, transparent);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .timeline-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .timeline-header h2 {
+      font-size: 2.5em;
+      color: #2c5f2d;
+      margin-bottom: 10px;
+      display: inline-block;
+      position: relative;
+    }
+    .timeline-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, #2c5f2d, #97bc62);
+      border-radius: 2px;
+    }
+    .timeline-subtitle {
+      font-size: 1.2em;
+      color: #666;
+      margin-top: 20px;
+    }
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #2c5f2d 0%, #97bc62 100%);
+      transform: translateX(-50%);
+      box-shadow: 0 0 10px rgba(44,95,45,0.3);
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 40px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .timeline-item.left {
+      left: 0;
+      text-align: right;
+      padding-right: 60px;
+    }
+    .timeline-item.right {
+      left: 50%;
+      padding-left: 60px;
+    }
+    .timeline-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      position: relative;
+      background-image:
+        linear-gradient(white, white),
+        linear-gradient(135deg, #2c5f2d, #97bc62);
+      background-origin: border-box;
+      background-clip: padding-box, border-box;
+    }
+    .timeline-content:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+    .timeline-year {
+      font-size: 2em;
+      font-weight: bold;
+      background: linear-gradient(135deg, #2c5f2d, #97bc62);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .timeline-title {
+      font-size: 1.3em;
+      color: #333;
+      margin: 15px 0;
+      font-weight: 600;
+    }
+    .timeline-description {
+      color: #666;
+      line-height: 1.6;
+      font-size: 1.05em;
+    }
+    .timeline-dot {
+      position: absolute;
+      width: 20px; height: 20px;
+      background: #2c5f2d;
+      border: 4px solid #97bc62;
+      border-radius: 50%;
+      top: 50px;
+      z-index: 1;
+      animation: pulse 2s infinite;
+      box-shadow: 0 0 15px rgba(44,95,45,0.5);
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 15px rgba(44,95,45,0.5); }
+      50% { box-shadow: 0 0 25px rgba(44,95,45,0.8); }
+      100% { box-shadow: 0 0 15px rgba(44,95,45,0.5); }
+    }
+    .timeline-item.left .timeline-dot {
+      right: -10px;
+    }
+    .timeline-item.right .timeline-dot {
+      left: -10px;
+    }
+    .timeline-arrow {
+      position: absolute;
+      width: 0; height: 0;
+      border-style: solid;
+      top: 50px;
+    }
+    .timeline-item.left .timeline-arrow {
+      right: 40px;
+      border-width: 10px 0 10px 15px;
+      border-color: transparent transparent transparent white;
+    }
+    .timeline-item.right .timeline-arrow {
+      left: 40px;
+      border-width: 10px 15px 10px 0;
+      border-color: transparent white transparent transparent;
+    }
 
-        /* Introduction Section */
-        .introduction {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
-            text-align: center;
-        }
+    /* Footer */
+    footer {
+      background: #2c5f2d;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    footer h3 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+    .contact-info {
+      font-size: 1.1em;
+      line-height: 2;
+    }
+    .contact-info a {
+      color: #97bc62;
+      text-decoration: none;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
 
-        .introduction h2 {
-            color: #2c5f2d;
-            margin-bottom: 20px;
-            font-size: 2em;
-        }
-
-        .introduction p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #555;
-            max-width: 800px;
-            margin: 0 auto 15px;
-        }
-
-        /* Image Grid Styles */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 60px;
-        }
-
-        .image-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-
-        .image-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .image-card h3 {
-            padding: 15px;
-            background: #2c5f2d;
-            color: white;
-            font-size: 1.1em;
-            text-align: center;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            padding: 20px;
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: 900px;
-            margin: 0 auto;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .close:hover {
-            color: #bbb;
-        }
-
-        /* Carousel Styles */
-        .carousel-container {
-            position: relative;
-            max-height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .carousel-image {
-            max-width: 100%;
-            max-height: 60vh;
-            object-fit: contain;
-        }
-
-        .carousel-description {
-            text-align: center;
-            color: white;
-            padding: 20px;
-            font-size: 1.1em;
-            background: rgba(0,0,0,0.5);
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 30px;
-            color: white;
-            background: rgba(0,0,0,0.5);
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            user-select: none;
-        }
-
-        .prev:hover, .next:hover {
-            background: rgba(0,0,0,0.8);
-        }
-
-        .prev {
-            left: 20px;
-        }
-
-        .next {
-            right: 20px;
-        }
-
-        /* Footer Styles */
-        footer {
-            background: #2c5f2d;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        footer h3 {
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .contact-info {
-            font-size: 1.1em;
-            line-height: 2;
-        }
-
-        .contact-info a {
-            color: #97bc62;
-            text-decoration: none;
-        }
-
-        .contact-info a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-            
-            .introduction {
-                padding: 25px;
-            }
-            
-            .introduction h2 {
-                font-size: 1.5em;
-            }
-            
-            .introduction p {
-                font-size: 1em;
-            }
-            
-            .image-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-            }
-            
-            .prev, .next {
-                font-size: 24px;
-                padding: 8px 15px;
-            }
-        }
-    </style>
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 { font-size: 2em; }
+      .introduction { padding: 25px; }
+      .introduction h2 { font-size: 1.5em; }
+      .introduction p { font-size: 1em; }
+      .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .prev, .next {
+        font-size: 24px;
+        padding: 8px 15px;
+      }
+      .timeline::before { left: 30px; }
+      .timeline-item {
+        width: 100%;
+        padding-left: 80px;
+        padding-right: 20px;
+        text-align: left;
+      }
+      .timeline-item.right { left: 0; }
+      .timeline-dot {
+        left: 20px !important;
+        right: auto !important;
+      }
+      .timeline-arrow { display: none; }
+      .timeline-content { padding: 20px; }
+      .timeline-year { font-size: 1.5em; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Our Farm Journey</h1>
-        <p>32 Years of Self-Reliance and Independent Living</p>
-    </header>
+  <header>
+    <h1>Our Farm Journey</h1>
+    <p>32 Years of Self-Reliance and Independent Living</p>
+  </header>
 
-    <div class="container">
-        <section class="introduction">
-            <h2>Keeping Soil Young and Fertile</h2>
-            <p>
-                For over three decades, our 14-acre farm has embraced the fundamental principle of sustainable agriculture: maintaining soil health as the foundation of productive farming. In an era where Indian agriculture faces challenges of soil degradation and declining fertility, we have committed ourselves to practices that regenerate and preserve our land's natural vitality. Through careful crop rotation, organic composting, and minimal chemical intervention, we ensure that our soil remains as productive today as it was when we began this journey.
+  <div class="container">
+    <section class="introduction">
+      <h2>Keeping Soil Young and Fertile</h2>
+      <p>
+        <strong>After partition in 1947</strong>, in 1955 the family was alloted the jungle of 197 acres to <strong>Lt. Shri Prithviraj Anand s/o Lt. shri Dinanath Anand</strong> over period of survival the jungle was converted to fertile agriculture landand two generations survived to make 45 acres land for paddy, wheat, sugarcane, potato, grams, sunflower, maze, safed musli, papaya, sweet corn, vegetable cultivation as trialsto sustain the family on agriculture the rich historyof fertile land has seen mny crop cycles almost yie4lding every crop including lentils and peas and grams. For over three decades <strong>Vipul Anand s/o Lt.shri Ramesh Chander Anand s/o Lt. Shri Prithviraj Anand</strong>  Has retained , our remaining 14-acre farm has embraced the fundamental principle of <strong>sustainable agriculture:</strong> maintaining soil health intercropping of mustard, carots, redish as the foundation of productive farming. In an era where Indian agriculture faces challenges of soil degradation and declining fertility, we have committed ourselves to practices that regenerate and preserve our land's natural vitality and using farmyard manure cow dung and vermicompost[is still being produced at farms to cut over heads and keep soil carbon matter rich and microorganism alive, soil ecosystem is kept alive and minimal use of chemical fertilizer[avoiding strong pesticides, manual deweeding practices] nitrogen setting in land is done by moong[lentils,peas and dhencha inter crop rotation] <strong>land in this area is iron deficient which is wide spread in kherishish gram land area</strong> the neutrient treatment to crops have seen zinc spray application of gypsum to increase electrical conductivity regularly lot of resources have been spent in maintaining the soil texture and maintaining soil condition for fertility and soil rejuvination ].
+      </p>
+      <p>
+       <section class="farm-approach">
+    <h2>Our Sustainable Farming Approach</h2>
+    <p>At <strong>Anand Agro Farms</strong>, we blend time-tested agricultural wisdom with cutting-edge sustainable practices to create a thriving <em>14-acre ecosystem</em>. Our commitment to responsible farming has positioned us as a leader in the region's agricultural community.</p>
+
+    <h3>Innovative Water Management</h3>
+    <p>Understanding the critical importance of water conservation in <strong>Pehowa's dark zone region</strong>, we've invested in advanced irrigation infrastructure. Our recently installed <em>subsurface pipeline system</em> now covers all 14 acres, ensuring efficient water distribution while minimizing waste. This system, combined with strategic <strong>land leveling technology</strong>, optimizes water usage for flood irrigation in paddy cultivation while preventing waterlogging.</p>
+
+    <h3>Natural Farming Practices</h3>
+    <p>We maintain soil health through regular additions of <strong>organic matter</strong> and the application of <em>bio-decomposers</em>. For pest management, we utilize natural solutions including <strong>neem-based insecticides</strong> and extracts from locally available plants, creating a <em>chemical-free environment</em> that protects both crops and beneficial organisms.</p>
+
+    <h3>Strategic Farm Design</h3>
+    <p>Our fields sit at a <strong>higher elevation</strong> compared to surrounding farms, providing natural drainage advantages. This thoughtful positioning, combined with <em>minimal soil erosion</em>, ensures our crops remain protected even during heavy rainfall events—a crucial advantage that has made our farm <strong>highly sought-after</strong> among contract farming partners.</p>
+
+    <h3>Proven Success</h3>
+    <p>Our sustainable practices have yielded impressive results. The farm consistently commands <strong>premium rates</strong> in the contract farming market, thanks to our <em>superior soil quality</em>, excellent moisture retention, and reliable crop performance. These achievements demonstrate that <strong>environmentally responsible farming</strong> can also be economically viable.</p>
+
+    <h3>Our Vision for Regional Agriculture</h3>
+    <p>As water scarcity becomes an increasing concern in Haryana, we advocate for a shift toward <strong>water-efficient crops</strong> and farming methods. We invite fellow farmers to join us in preserving our precious groundwater resources while maintaining profitable operations. Together, we can set an example for <em>sustainable agriculture</em> across the state.</p>
+</section>
+      </p>
+    </section>
+
+    <section class="image-grid" id="imageGrid">
+      <!-- dynamically generated -->
+    </section>
+
+    <section class="timeline-section">
+      <div class="timeline-header">
+        <h2>Our Journey Through Time</h2>
+        <p class="timeline-subtitle">The Story of Vipul Anand and Anand Agro Farms</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <div class="timeline-year">1993</div>
+            <h3 class="timeline-title">The Beginning</h3>
+            <p class="timeline-description">
+              A pivotal moment in our agricultural journey as the land degree for 7 acres[56 kanals] was officially transferred to Vipul Anand's name. By his father
             </p>
-            <p>
-                Our approach combines traditional wisdom with modern sustainable practices. By incorporating natural farming methods, maintaining proper soil moisture through efficient irrigation, and regularly adding organic matter, we have created a self-sustaining ecosystem. This commitment to soil health has not only sustained our farm's productivity but has also contributed to better water retention, improved crop quality, and reduced dependency on external inputs. In 2025, as Indian agriculture increasingly recognizes the importance of soil conservation, our farm stands as a practical example of how responsible farming practices can ensure long-term agricultural viability while supporting rural livelihoods.
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
+        </div>
+
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <div class="timeline-year">1995</div>
+            <h3 class="timeline-title">First Harvest</h3>
+            <p class="timeline-description">
+              The farm yielded its first significant harvest, combining traditional methods with modern techniques for sustainable productivity.
             </p>
-        </section>
-
-        <section class="image-grid" id="imageGrid">
-            <!-- Image cards will be dynamically generated here -->
-        </section>
-    </div>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="carousel-container">
-                <img id="carouselImage" class="carousel-image" src="" alt="">
-                <span class="prev">&#10094;</span>
-                <span class="next">&#10095;</span>
-            </div>
-            <div id="carouselDescription" class="carousel-description"></div>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
         </div>
-    </div>
 
-    <footer>
-        <h3>Contact Information</h3>
-        <div class="contact-info">
-            <p><strong>Mobile:</strong> <a href="tel:+919896918475">+91 9896918475</a></p>
-            <p><strong>Email:</strong> <a href="mailto:va@vipulanand.in">va@vipulanand.in</a></p>
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <div class="timeline-year">2000</div>
+            <h3 class="timeline-title">Expansion & Diversification</h3>
+            <p class="timeline-description">
+              Introduction of diverse crops and advanced irrigation systems. Vegetables alongside grains enhanced food security and income stability.
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
         </div>
-    </footer>
 
-    <script>
-        // GALLERY CONFIGURATION
-        // Configure your image folder and file settings here
-        const config = {
-            imageFolder: 'images/',
-            descriptionFolder: 'images/',
-            imageExtension: '.jpg', // Change to .png if using PNG files
-            totalImages: 6, // Update this number based on how many images you have
-            defaultDescription: 'Anand Agro Farms gallery',
-            defaultTitle: 'Farm Gallery Image'
-        };
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <div class="timeline-year">2010</div>
+            <h3 class="timeline-title">Sustainable Practices</h3>
+            <p class="timeline-description">
+              Full adoption of organic farming and composting techniques. The farm became a regional model for environmental conservation.
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
+        </div>
 
-        // Array to store processed image data
-        const images = [];
+        <div class="timeline-item left">
+          <div class="timeline-content">
+            <div class="timeline-year">2020</div>
+            <h3 class="timeline-title">Next Generation</h3>
+            <p class="timeline-description">
+              Children launch successful tech careers while keeping strong ties to the farm, carrying forward our values of hard work and independence.
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
+        </div>
 
-        // Function to load description from text file
-        async function loadDescription(descNumber) {
-            try {
-                const response = await fetch(`${config.descriptionFolder}desc${descNumber}.txt`);
-                if (response.ok) {
-                    const text = await response.text();
-                    return text.trim() || config.defaultDescription;
-                }
-                return config.defaultDescription;
-            } catch (error) {
-                return config.defaultDescription;
-            }
-        }
+        <div class="timeline-item right">
+          <div class="timeline-content">
+            <div class="timeline-year">2025</div>
+            <h3 class="timeline-title">Modern Farming Excellence</h3>
+            <p class="timeline-description">
+              Three decades in, our farm thrives with cutting-edge techniques yet holds true to traditional values—our legacy of sustainability endures.
+            </p>
+          </div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-arrow"></div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-        // Function to generate title from description or use default
-        function generateTitle(description, imageNumber) {
-            if (description && description !== config.defaultDescription) {
-                // Extract first few words from description as title
-                const words = description.split(' ').slice(0, 4).join(' ');
-                return words.length > 30 ? words.substring(0, 30) + '...' : words;
-            }
-            return `${config.defaultTitle} ${imageNumber}`;
-        }
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="carousel-container">
+        <img id="carouselImage" class="carousel-image" src="" alt="">
+        <span class="prev">&#10094;</span>
+        <span class="next">&#10095;</span>
+      </div>
+      <div id="carouselDescription" class="carousel-description"></div>
+    </div>
+  </div>
 
-        // Initialize images array with proper structure
-        async function initializeGallery() {
-            for (let i = 1; i <= config.totalImages; i++) {
-                const description = await loadDescription(i);
-                const title = generateTitle(description, i);
-                
-                images.push({
-                    src: `${config.imageFolder}image${i}${config.imageExtension}`,
-                    title: title,
-                    description: description,
-                    number: i
-                });
-            }
-            
-            // Generate the image grid after loading all data
-            generateImageGrid();
-        }
+  <footer>
+    <h3>Contact Information</h3>
+    <div class="contact-info">
+      <p><strong>Mobile:</strong> <a href="tel:+919896918475">+91 9896918475</a></p>
+      <p><strong>Email:</strong> <a href="mailto:va@vipulanand.in">va@vipulanand.in</a></p>
+    </div>
+  </footer>
 
-        let currentImageIndex = 0;
+  <script>
+    // GALLERY CONFIGURATION
+    const config = {
+      imageFolder: 'images/',
+      descriptionFolder: 'desc/',
+      defaultDescription: 'Anand Agro Farms [images are copyrighted and only for use on this domain]',
+      defaultTitle: 'Farm Gallery Image'
+    };
+    const imageFilenames = [
+      'image1.jpg','image2.jpg','image3.jpg',
+      'image4.jpg','image5.jpg','image6.jpg'
+    ];
+    const images = [];
 
-        // Generate image grid
-        function generateImageGrid() {
-            const grid = document.getElementById('imageGrid');
-            images.forEach((image, index) => {
-                const card = document.createElement('div');
-                card.className = 'image-card';
-                card.onclick = () => openModal(index);
-                
-                card.innerHTML = `
-                    <img src="${image.src}" alt="${image.title}">
-                    <h3>${image.title}</h3>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
+    async function loadDescription(idx) {
+      try {
+        const res = await fetch(`${config.descriptionFolder}desc${idx+1}.txt`);
+        if (res.ok) return (await res.text()).trim() || config.defaultDescription;
+      } catch {}
+      return config.defaultDescription;
+    }
 
-        // Modal functions
-        const modal = document.getElementById('modal');
-        const carouselImage = document.getElementById('carouselImage');
-        const carouselDescription = document.getElementById('carouselDescription');
+    function generateTitle(desc, idx) {
+      if (desc !== config.defaultDescription) {
+        const w = desc.split(' ').slice(0,4).join(' ');
+        return w.length > 30 ? w.slice(0,30)+'…' : w;
+      }
+      return `${config.defaultTitle} ${idx+1}`;
+    }
 
-        function openModal(index) {
-            currentImageIndex = index;
-            modal.style.display = 'block';
-            updateCarousel();
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        function updateCarousel() {
-            const currentImage = images[currentImageIndex];
-            carouselImage.src = currentImage.src;
-            carouselImage.alt = currentImage.title;
-            carouselDescription.innerHTML = `<strong>${currentImage.title}</strong><br>${currentImage.description}`;
-        }
-
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            updateCarousel();
-        }
-
-        function prevImage() {
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-            updateCarousel();
-        }
-
-        // Event listeners
-        document.querySelector('.close').onclick = closeModal;
-        document.querySelector('.next').onclick = nextImage;
-        document.querySelector('.prev').onclick = prevImage;
-
-        // Close modal on outside click
-        modal.onclick = function(event) {
-            // Check if click is on the modal background or outside the carousel content
-            if (event.target === modal || !event.target.closest('.carousel-container, .carousel-description')) {
-                closeModal();
-            }
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (modal.style.display === 'block') {
-                if (e.key === 'ArrowLeft') prevImage();
-                if (e.key === 'ArrowRight') nextImage();
-                if (e.key === 'Escape') closeModal();
-            }
+    async function initializeGallery() {
+      for (let i=0; i<imageFilenames.length; i++){
+        const desc = await loadDescription(i);
+        images.push({
+          src: `${config.imageFolder}${imageFilenames[i]}`,
+          title: generateTitle(desc,i),
+          description: desc
         });
+      }
+      const grid = document.getElementById('imageGrid');
+      images.forEach((img,i) => {
+        const card = document.createElement('div');
+        card.className = 'image-card';
+        card.onclick = () => openModal(i);
+        card.innerHTML = `<img src="${img.src}" alt="${img.title}">`;
+        grid.appendChild(card);
+      });
+    }
 
-        // Initialize gallery on page load
-        window.addEventListener('DOMContentLoaded', initializeGallery);
-    </script>
+    // Modal & Carousel
+    let currentImage = 0;
+    const modal = document.getElementById('modal');
+    const carouselImage = document.getElementById('carouselImage');
+    const carouselDescription = document.getElementById('carouselDescription');
+    function openModal(i){
+      currentImage = i;
+      modal.style.display = 'block';
+      updateCarousel();
+    }
+    function closeModal(){ modal.style.display = 'none'; }
+    function updateCarousel(){
+      const img = images[currentImage];
+      carouselImage.src = img.src;
+      carouselImage.alt = img.title;
+      carouselDescription.innerHTML = `<strong>${img.title}</strong><br>${img.description}`;
+    }
+    function nextImage(){
+      currentImage = (currentImage+1) % images.length;
+      updateCarousel();
+    }
+    function prevImage(){
+      currentImage = (currentImage-1 + images.length) % images.length;
+      updateCarousel();
+    }
+    document.querySelector('.close').onclick = closeModal;
+    document.querySelector('.next').onclick = nextImage;
+    document.querySelector('.prev').onclick = prevImage;
+    modal.onclick = e => {
+      if (e.target===modal || !e.target.closest('.carousel-container, .carousel-description')) {
+        closeModal();
+      }
+    };
+    document.addEventListener('keydown', e => {
+      if (modal.style.display==='block') {
+        if (e.key==='ArrowLeft') prevImage();
+        if (e.key==='ArrowRight') nextImage();
+        if (e.key==='Escape') closeModal();
+      }
+    });
+
+    // Timeline scroll-reveal
+    function initTimelineReveal() {
+      const items = document.querySelectorAll('.timeline-item');
+      const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            o.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      items.forEach(i => obs.observe(i));
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initializeGallery();
+      initTimelineReveal();
+    });
+  </script>
 </body>
 </html>
