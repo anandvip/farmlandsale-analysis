@@ -3,15 +3,427 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnandAgro Farms story</title>
+    <title>Our Farm Journey - 32 Years of Self-Reliance</title>
     <style>
-      h1{
-        font-size:12rem;
-        font-familyLarial, sans-serif;
-      }
-    </style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Introduction Section */
+        .introduction {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .introduction h2 {
+            color: #2c5f2d;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .introduction p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        /* Image Grid Styles */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .image-card h3 {
+            padding: 15px;
+            background: #2c5f2d;
+            color: white;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            padding: 20px;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .close:hover {
+            color: #bbb;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            max-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-image {
+            max-width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+        }
+
+        .carousel-description {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-size: 1.1em;
+            background: rgba(0,0,0,0.5);
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            user-select: none;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #2c5f2d;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer h3 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .contact-info {
+            font-size: 1.1em;
+            line-height: 2;
+        }
+
+        .contact-info a {
+            color: #97bc62;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .introduction {
+                padding: 25px;
+            }
+            
+            .introduction h2 {
+                font-size: 1.5em;
+            }
+            
+            .introduction p {
+                font-size: 1em;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .prev, .next {
+                font-size: 24px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Our Farm Journey</h1>
+        <p>32 Years of Self-Reliance and Independent Living</p>
+    </header>
+
+    <div class="container">
+        <section class="introduction">
+            <h2>Keeping Soil Young and Fertile</h2>
+            <p>
+                For over three decades, our 14-acre farm has embraced the fundamental principle of sustainable agriculture: maintaining soil health as the foundation of productive farming. In an era where Indian agriculture faces challenges of soil degradation and declining fertility, we have committed ourselves to practices that regenerate and preserve our land's natural vitality. Through careful crop rotation, organic composting, and minimal chemical intervention, we ensure that our soil remains as productive today as it was when we began this journey.
+            </p>
+            <p>
+                Our approach combines traditional wisdom with modern sustainable practices. By incorporating natural farming methods, maintaining proper soil moisture through efficient irrigation, and regularly adding organic matter, we have created a self-sustaining ecosystem. This commitment to soil health has not only sustained our farm's productivity but has also contributed to better water retention, improved crop quality, and reduced dependency on external inputs. In 2025, as Indian agriculture increasingly recognizes the importance of soil conservation, our farm stands as a practical example of how responsible farming practices can ensure long-term agricultural viability while supporting rural livelihoods.
+            </p>
+        </section>
+
+        <section class="image-grid" id="imageGrid">
+            <!-- Image cards will be dynamically generated here -->
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="carousel-container">
+                <img id="carouselImage" class="carousel-image" src="" alt="">
+                <span class="prev">&#10094;</span>
+                <span class="next">&#10095;</span>
+            </div>
+            <div id="carouselDescription" class="carousel-description"></div>
+        </div>
+    </div>
+
+    <footer>
+        <h3>Contact Information</h3>
+        <div class="contact-info">
+            <p><strong>Mobile:</strong> <a href="tel:+919896918475">+91 9896918475</a></p>
+            <p><strong>Email:</strong> <a href="mailto:va@vipulanand.in">va@vipulanand.in</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // GALLERY CONFIGURATION
+        // Configure your image folder and file settings here
+        const config = {
+            imageFolder: 'images/',
+            descriptionFolder: 'images/',
+            imageExtension: '.jpg', // Change to .png if using PNG files
+            totalImages: 6, // Update this number based on how many images you have
+            defaultDescription: 'Anand Agro Farms gallery',
+            defaultTitle: 'Farm Gallery Image'
+        };
+
+        // Array to store processed image data
+        const images = [];
+
+        // Function to load description from text file
+        async function loadDescription(descNumber) {
+            try {
+                const response = await fetch(`${config.descriptionFolder}desc${descNumber}.txt`);
+                if (response.ok) {
+                    const text = await response.text();
+                    return text.trim() || config.defaultDescription;
+                }
+                return config.defaultDescription;
+            } catch (error) {
+                return config.defaultDescription;
+            }
+        }
+
+        // Function to generate title from description or use default
+        function generateTitle(description, imageNumber) {
+            if (description && description !== config.defaultDescription) {
+                // Extract first few words from description as title
+                const words = description.split(' ').slice(0, 4).join(' ');
+                return words.length > 30 ? words.substring(0, 30) + '...' : words;
+            }
+            return `${config.defaultTitle} ${imageNumber}`;
+        }
+
+        // Initialize images array with proper structure
+        async function initializeGallery() {
+            for (let i = 1; i <= config.totalImages; i++) {
+                const description = await loadDescription(i);
+                const title = generateTitle(description, i);
+                
+                images.push({
+                    src: `${config.imageFolder}image${i}${config.imageExtension}`,
+                    title: title,
+                    description: description,
+                    number: i
+                });
+            }
+            
+            // Generate the image grid after loading all data
+            generateImageGrid();
+        }
+
+        let currentImageIndex = 0;
+
+        // Generate image grid
+        function generateImageGrid() {
+            const grid = document.getElementById('imageGrid');
+            images.forEach((image, index) => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.onclick = () => openModal(index);
+                
+                card.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}">
+                    <h3>${image.title}</h3>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal functions
+        const modal = document.getElementById('modal');
+        const carouselImage = document.getElementById('carouselImage');
+        const carouselDescription = document.getElementById('carouselDescription');
+
+        function openModal(index) {
+            currentImageIndex = index;
+            modal.style.display = 'block';
+            updateCarousel();
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function updateCarousel() {
+            const currentImage = images[currentImageIndex];
+            carouselImage.src = currentImage.src;
+            carouselImage.alt = currentImage.title;
+            carouselDescription.innerHTML = `<strong>${currentImage.title}</strong><br>${currentImage.description}`;
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateCarousel();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateCarousel();
+        }
+
+        // Event listeners
+        document.querySelector('.close').onclick = closeModal;
+        document.querySelector('.next').onclick = nextImage;
+        document.querySelector('.prev').onclick = prevImage;
+
+        // Close modal on outside click
+        modal.onclick = function(event) {
+            // Check if click is on the modal background or outside the carousel content
+            if (event.target === modal || !event.target.closest('.carousel-container, .carousel-description')) {
+                closeModal();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (modal.style.display === 'block') {
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'Escape') closeModal();
+            }
+        });
+
+        // Initialize gallery on page load
+        window.addEventListener('DOMContentLoaded', initializeGallery);
+    </script>
 </body>
-  <h1>welcome to anand agro farms</h1>
-<h3>32 years of ownership</h3>
 </html>
